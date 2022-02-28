@@ -6,8 +6,8 @@ public class PrimeNumberSpiral {
 
         int direction = 0;
         int num = 1;
-        int w = 11;
-        int h = 11;
+        int w = 15;
+        int h = 15;
 
         int x = Math.floorDiv(w, 2);
         int y = Math.floorDiv(h, 2);
@@ -26,14 +26,39 @@ public class PrimeNumberSpiral {
             direction -= 90;
         }
 
-        printBoard(board, false);
-        System.out.println();
-        printColoredCheckerBoard(board, false, ConsoleColors.GREEN_BACKGROUND);
-        System.out.println();
-        printBoard(board, true);
-        System.out.println();
-        printColoredCheckerBoard(board, true, ConsoleColors.GREEN_BACKGROUND);
+//        printBoard(board, false);
+        printBoardHighlightPrimes(board, false, ConsoleColors.GREEN_BACKGROUND);
+//        System.out.println();
+//        printColoredCheckerBoard(board, false, ConsoleColors.GREEN_BACKGROUND);
+//        System.out.println();
+//        printBoard(board, true);
+//        System.out.println();
+//        printColoredCheckerBoard(board, true, ConsoleColors.GREEN_BACKGROUND);
     }
+
+    private static void printBoardHighlightPrimes(CellData[][] board, boolean printRowSpacers, String color){
+        if (printRowSpacers){
+            System.out.println("---------------------------------------------");
+        }
+
+        for (CellData[] rows : board) {
+            System.out.print("|");
+            for (CellData cell : rows) {
+                if (cell.prime){
+                    System.out.print(color + cell.stringValue + ConsoleColors.RESET + "|");
+                } else{
+                    System.out.print(cell.stringValue + "|");
+                }
+            }
+            System.out.println();
+
+            if (printRowSpacers){
+                System.out.println("---------------------------------------------");
+            }
+        }
+        System.out.print(ConsoleColors.RESET);
+    }
+
     private static void printBoard(CellData[][] board, boolean printRowSpacers){
         if (printRowSpacers){
             System.out.println("---------------------------------------------");
@@ -83,12 +108,24 @@ public class PrimeNumberSpiral {
         int y;
         int intValue;
         String stringValue;
+        boolean prime = true;
 
         CellData(int x, int y, int value){
             this.x = x;
             this.y = y;
             this.intValue = value;
             this.stringValue = String.format("%3d", value);
+
+            this.isPrime();
+        }
+
+        private void isPrime() {
+            for (int i=2; i <= (int) Math.sqrt(intValue); i++){
+                if (intValue % i == 0){
+                  prime = false;
+                  break;
+                }
+            }
         }
     }
 
