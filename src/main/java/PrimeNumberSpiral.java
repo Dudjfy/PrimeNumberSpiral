@@ -12,13 +12,13 @@ public class PrimeNumberSpiral {
         int x = Math.floorDiv(w, 2);
         int y = Math.floorDiv(h, 2);
 
-        String[][] board = new String[h][w];
+        CellData[][] board = new CellData[h][w];
 
         int range = w * h;
         int startAt = 2;
         for (int i = startAt; num < range; i++) {
             for (int j = 0; j < Math.floorDiv(i, 2); j++) {
-                board[y][x] = Integer.toString(num);
+                board[y][x] = new CellData(x, y, num);
                 x += (int) Math.cos(Math.toRadians(direction));
                 y += (int) Math.sin(Math.toRadians(direction));
                 num++;
@@ -29,15 +29,29 @@ public class PrimeNumberSpiral {
         printBoard(board);
     }
 
-    private static void printBoard(String[][] board){
+    private static void printBoard(CellData[][] board){
         System.out.println("---------------------------------------------");
-        for (String[] rows : board) {
+        for (CellData[] rows : board) {
             System.out.print("|");
-            for (String cell : rows) {
-                System.out.print(String.format("%3s|", cell));
+            for (CellData cell : rows) {
+                System.out.print(cell.stringValue + "|");
             }
             System.out.println();
             System.out.println("---------------------------------------------");
+        }
+    }
+
+    public static class CellData {
+        int x;
+        int y;
+        int intValue;
+        String stringValue;
+
+        CellData(int x, int y, int value){
+            this.x = x;
+            this.y = y;
+            this.intValue = value;
+            this.stringValue = String.format("%3d", value);
         }
     }
 
