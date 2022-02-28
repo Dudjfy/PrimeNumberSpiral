@@ -26,19 +26,56 @@ public class PrimeNumberSpiral {
             direction -= 90;
         }
 
-        printBoard(board);
+        printBoard(board, false);
+        System.out.println();
+        printColoredCheckerBoard(board, false, ConsoleColors.GREEN_BACKGROUND);
+        System.out.println();
+        printBoard(board, true);
+        System.out.println();
+        printColoredCheckerBoard(board, true, ConsoleColors.GREEN_BACKGROUND);
     }
+    private static void printBoard(CellData[][] board, boolean printRowSpacers){
+        if (printRowSpacers){
+            System.out.println("---------------------------------------------");
+        }
 
-    private static void printBoard(CellData[][] board){
-        System.out.println("---------------------------------------------");
         for (CellData[] rows : board) {
             System.out.print("|");
             for (CellData cell : rows) {
                 System.out.print(cell.stringValue + "|");
             }
             System.out.println();
+
+            if (printRowSpacers){
+                System.out.println("---------------------------------------------");
+            }
+        }
+        System.out.print(ConsoleColors.RESET);
+    }
+
+    private static void printColoredCheckerBoard(CellData[][] board, boolean printRowSpacers, String color){
+        if (printRowSpacers){
             System.out.println("---------------------------------------------");
         }
+
+        boolean coloredCell = false;
+        for (CellData[] rows : board) {
+            System.out.print("|");
+            for (CellData cell : rows) {
+                if (coloredCell){
+                    System.out.print(color + cell.stringValue + ConsoleColors.RESET + "|");
+                } else{
+                    System.out.print(cell.stringValue + "|");
+                }
+                coloredCell = !coloredCell;
+            }
+            System.out.println();
+
+            if (printRowSpacers){
+                System.out.println("---------------------------------------------");
+            }
+        }
+        System.out.print(ConsoleColors.RESET);
     }
 
     public static class CellData {
