@@ -7,8 +7,9 @@ public class PrimeNumberSpiral {
 
         int direction = 0;
         int num = 1;
-        int w = 1001;
-        int h = 1001;
+        int side = 25;
+        int w = side;
+        int h = side;
 
         int x = Math.floorDiv(w, 2);
         int y = Math.floorDiv(h, 2);
@@ -19,7 +20,7 @@ public class PrimeNumberSpiral {
         int startAt = 2;
         for (int i = startAt; num < range; i++) {
             for (int j = 0; j < Math.floorDiv(i, 2); j++) {
-                board[y][x] = new CellData(x, y, num);
+                board[y][x] = new CellData(x, y, num, Math.abs(direction % 360));
                 x += (int) Math.cos(Math.toRadians(direction));
                 y += (int) Math.sin(Math.toRadians(direction));
                 num++;
@@ -36,14 +37,14 @@ public class PrimeNumberSpiral {
 //        System.out.println();
 //        printColoredCheckerBoard(board, true, ConsoleColors.GREEN_BACKGROUND);
 
-        paint(w, h, board);
+        paint(w, h, board, 40);
     }
 
-    private static void paint(int w, int h, CellData[][] board) {
-        DisplayGraphics m = new DisplayGraphics(board);
+    private static void paint(int w, int h, CellData[][] board, int side) {
+        DisplayGraphics m = new DisplayGraphics(board, side);
         JFrame f = new JFrame();
         f.add(m);
-        f.setSize(Math.min(w, 1000), Math.min(h, 1000));
+        f.setSize(Math.max(w * side + side / 2, 1000), Math.max(h * side + side / 2, 1000));
         //f.setLayout(null);
         f.setVisible(true);
     }
@@ -120,13 +121,15 @@ public class PrimeNumberSpiral {
         int y;
         int intValue;
         String stringValue;
+        int direction;
         boolean prime = true;
 
-        CellData(int x, int y, int value) {
+        CellData(int x, int y, int value, int direction) {
             this.x = x;
             this.y = y;
             this.intValue = value;
             this.stringValue = String.format("%3d", value);
+            this.direction = direction;
 
             this.isPrime();
         }
